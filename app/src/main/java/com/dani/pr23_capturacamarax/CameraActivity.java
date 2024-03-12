@@ -94,6 +94,7 @@ public class CameraActivity extends AppCompatActivity {
         captureImage.setOnClickListener(v -> {
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
             File file = new File(getFilesDir(), mDateFormat.format(new Date()) + ".jpg");
+            MainActivity.photoName = file.getName();
             Log.d("Etiqueta", file.getPath());
 
             ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();

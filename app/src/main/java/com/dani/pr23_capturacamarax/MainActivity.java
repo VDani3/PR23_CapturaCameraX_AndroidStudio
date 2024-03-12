@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String[] CAMERA_PERMISSION = new String[]{android.Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
 
-    private  String dirPhoto;
-    private String photoPath;
+    public static String photoName;
+    private String photoPath = "0.jpg";
     private ImageView imageView;
 
     @Override
@@ -33,11 +33,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.foto);
         photoPath =  obtenerUltimaFoto();
-        Log.d("Etiqueta",photoPath);
 
-        File foto = new File(photoPath);
-        Uri uriPath = Uri.fromFile(foto);
-        imageView.setImageURI(uriPath);
+        if (photoPath != null) {
+            File foto = new File(photoPath);
+            Uri uriPath = Uri.fromFile(foto);
+            imageView.setImageURI(uriPath);
+        }
         Button enableCamera = findViewById(R.id.enableCamera);
         enableCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +71,12 @@ public class MainActivity extends AppCompatActivity {
         File directorio = new File(getFilesDir().getAbsolutePath());
         File[] archivos = directorio.listFiles();
 
-        if (archivos != null && archivos.length > 0) {
+        if (archivos != null && archivos.length > 1) {
             Arrays.sort(archivos, Collections.reverseOrder());
             return archivos[1].getAbsolutePath();
+        } else {
+            File newFile = new File(directorio.getAbsolutePath()+photoName);
+            newFile.mkdir();
         }
 
         return null;
